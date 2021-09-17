@@ -1,19 +1,44 @@
+// Your web app's Firebase configuration
 var firebaseConfig = {
-    apiKey: "AIzaSyAvByM1fz9zbnIPZ-_59L3qGA4p6C20E4I",
-    authDomain: "dinstagram-3e78a.firebaseapp.com",
-    projectId: "dinstagram-3e78a",
-    storageBucket: "dinstagram-3e78a.appspot.com",
-    messagingSenderId: "1012118029655",
-    appId: "1:1012118029655:web:f1010528edc9437aa62a12"
-  };
+      apiKey: "AIzaSyBOtKEbCjy3_kKin7QDLPS0ynizQ0gJtM4",
+      authDomain: "kwitter-a6923.firebaseapp.com",
+      databaseURL: "https://kwitter-a6923-default-rtdb.firebaseio.com",
+      projectId: "kwitter-a6923",
+      storageBucket: "kwitter-a6923.appspot.com",
+      messagingSenderId: "993084911945",
+      appId: "1:993084911945:web:4152c263bd15dd71ce2a98"
+    };
+    
+    // Initialize Firebase
+     firebase.initializeApp(firebaseConfig);
+  user_name = localStorage.getItem("user_name");
+  document.getElementById("user_name").innerHTML  = "Welcome " + user_name + " !";
+  function getData() {firebase.database().ref("/").on('value', function(snapshot) {document.getElementById("output").innerHTML = "";snapshot.forEach(function(childSnapshot) {childKey  = childSnapshot.key;
+         Room_names = childKey;
+        //Start code
+        console.log("Room name-" + Room_names);
+        row = "<div class='room_name' id="+Room_names+" onclick='redirectToRoomName(this.id)'>#"+Room_names+"</div><hr> ";
+        document.getElementById("output").innerHTML = row;
+        //End code
+        });});}
+  getData();
+  function addRoom()
+  {
+     room_name = document.getElementById("room_name").value;
   
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-function getData() {firebase.database().ref("/").on('value', function(snapshot) {document.getElementById("output").innerHTML = "";snapshot.forEach(function(childSnapshot) {childKey  = childSnapshot.key;
-    Room_names = childKey;
-   //Start code
-
-   //End code
-   });});}
-getData();
+     firebase.database().ref("/").child("room_name").update({
+     purpose: "add room name"
+     });
+  
+     localStorage.setItem("room_name",room_name);
+  
+     window.location = "dinsta_page.html";
+  }
+  
+  function redirectToRoomName(name)
+  {
+        console.log(name);
+        localStorage.setItem("room_name",name);
+        window.location = "dinsta_page.html";
+  }
+  
